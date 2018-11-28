@@ -1,0 +1,131 @@
+#Raw data can be found at: /mnt/research/ShadeLab/Sequence/raw_sequence/PRI_Kearns/bean_drought_nitrogen
+
+#HPCC analyses files can be found at: /mnt/research/ShadeLab/WorkingSpace/Bowsher/Bean_Rhizosphere_Nit_Drought
+
+
+#######################################################################################################
+
+
+
+#COPY SEQUENCE FILES INTO WORKINGSPACE.
+cp *.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Bean_Rhizosphere_Nit_Drought
+
+#MOVE THE DATA TO NEW DIRECTORY
+cd /mnt/research/ShadeLab/WorkingSpace/Bowsher/Bean_Rhizosphere_Nit_Drought
+mkdir InputData
+mv *.fastq InputData/
+
+#MERGE PAIRS
+mkdir mergedfastq
+/mnt/research/rdp/public/thirdParty/usearch10.0.240_i86linux64 -fastq_mergepairs InputData/*R1*.fastq -fastq_maxdiffs 10 -relabel @ -fastqout mergedfastq/merged.fastq -tabbedout mergedfastq/merged.report.txt -alnout mergedfastq/merged_aln.txt
+
+#CHECK SEQUENCE QUALITY OF MERGED SEQS
+mkdir fastq_info
+/mnt/research/rdp/public/thirdParty/usearch10.0.240_i86linux64 -fastq_eestats2 mergedfastq/merged.fastq -output fastq_info/eestats.txt
+
+#REMOVE ADAPTER SEQS (cut the reverse complement of primer2, and the actual sequence of Primer1).
+module load cutadapt/1.8.1
+cutadapt -a ATTAGAWACCCBDGTAGTCC -a GTGCCAGCMGCCGCGGTAA -o cut_merged.fastq mergedfastq/merged.fastq > cut_adpt_results.txt
+
+#FILTER THE MERGED SEQS
+/mnt/research/rdp/public/thirdParty/usearch10.0.240_i86linux64 -fastq_filter cut_merged.fastq -fastq_maxee 1 -fastaout filtered_merged.fa
+
+#DEREPLICATE (COMBINE IDENTICAL READS INTO UNIQUE SEQUENCES TO REDUCE FUTURE COMPUTATIONAL TIME BY ELIMINATING REDUNDANT COMPARISONS).
+/mnt/research/rdp/public/thirdParty/usearch10.0.240_i86linux64 -fastx_uniques filtered_merged.fa -fastaout uniques_filtered_merged.fa -sizeout
+
+
+
+
+#CLUSTER INTO 0.97 OTUS
+#make a new script 
+vim ClusterOTUs.sh
+#enter the following script:
+
+#!/bin/bash -login
+#PBS -l walltime=04:00:00,nodes=1:ppn=1,mem=12gb
+#PBS -j oe
+#PBS -N ClusterOTUs
+cd /mnt/research/ShadeLab/WorkingSpace/Bowsher/Bean_Rhizosphere_Nit_Drought
+/mnt/research/rdp/public/thirdParty/usearch10.0.240_i86linux64 -cluster_otus uniques_filtered_merged.fa -otus otus.fasta -uparseout otus_uparse.txt -relabel OTU
+
+#SUBMIT THE ABOVE SCRIPT
+qsub ClusterOTUs.sh
+#Output: 8451 OTUs, 25128 chimeras
+
+
+
+
+#MAP READS BACK TO THE OTUS AT 97% IDENTITY
+#make a new script
+vim MapToOTUs.sh
+#enter the following script:
+
+#!/bin/bash -login
+#PBS -l walltime=04:00:00,nodes=1:ppn=1,mem=12gb
+#PBS -j oe
+#PBS -N MapToOTUs
+cd /mnt/research/ShadeLab/WorkingSpace/Bowsher/Bean_Rhizosphere_Nit_Drought
+/mnt/research/rdp/public/thirdParty/usearch10.0.240_i86linux64 -otutab cut_merged.fastq -otus otus.fasta -uc OTU_map.uc -otutabout OTU_table.txt -biomout OTU_jsn.biom -notmatchedfq otu_unmapped.fq
+
+#Submit the above script
+qsub MapToOTUs.sh
+#Output: 2,300,326 / 2,487,834 mapped to OTUs (92.5%)
+
+
+
+
+#CLASSIFYING THE OTUS
+#First, download the latest Silva taxonomy annotations and alignment file from the following link:
+#https://www.mothur.org/wiki/Silva_reference_files
+#Move the Silva reference files to the WorkingSpace
+mv Silva.nr_v132.tgz /mnt/research/ShadeLab/WorkingSpace/Bowsher/Bean_Rhizosphere_Nit_Drought
+#Now decompress and extract the files:
+tar -xvzf Silva.nr_v132.tgz
+
+#make a new script:
+vim MothurCommands.sh
+#enter the following script:
+classify.seqs(fasta=otus.fasta, template=silva.nr_v132.align, taxonomy=silva.nr_v132.tax, method=wang, probs=F)
+
+#make a new script:
+vim ClassifyOTUs.sh
+#enter the following script:
+
+#!/bin/bash -login
+#PBS -l walltime=04:00:00,nodes=1:ppn=1,mem=12gb
+#PBS -j oe
+#PBS -N ClassifyOTUs
+
+cd /mnt/research/ShadeLab/WorkingSpace/Bowsher/Bean_Rhizosphere_Nit_Drought
+module load mothur/1.36.1
+mothur MothurCommands.sh
+
+#Submit the above script
+qsub ClassifyOTUs.sh
+
+
+
+#FINDING MITOCHONDRIAL AND PLANT-DERIVED CONTAMINANTS and UNASSIGNED OTUs
+grep "hloroplast" otus.nr_v132.wang.taxonomy > chloro.txt
+grep "itochondria" otus.nr_v132.wang.taxonomy > mito.txt
+grep "unknown_unclassified" otus.nr_v132.wang.taxonomy > unknown.txt
+cut -f1 chloro.txt mito.txt unknown.txt > Contaminant_OTUs.txt
+
+#REMOVE CONTAMINANT OTUS FROM THE TAX ASSIGMENTS TABLE
+grep -v -Fwf Contaminant_OTUs.txt otus.nr_v132.wang.taxonomy > Clean_otus_tax_assignments.txt
+
+#REMOVE CONTAMINANT OTUS FROM THE OTU TABLE
+grep -v -Fwf Contaminant_OTUs.txt OTU_table.txt > Clean_OTU_table.txt   
+   
+
+
+
+
+
+
+
+#MOVE RELEVANT FILES TO R FOR ECOLOGICAL ANALYSIS:
+	#Clean_OTU_table.txt
+	#Clean_otus_tax_assignments.txt
+	
+
