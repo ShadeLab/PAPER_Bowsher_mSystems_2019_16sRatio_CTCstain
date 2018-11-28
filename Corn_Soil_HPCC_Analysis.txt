@@ -1,0 +1,327 @@
+#Raw data can be found at: /mnt/research/ShadeLab/Sequence/raw_sequence/Bowsher/20180525_16S-V4_PE250
+
+#HPCC analyses files can be found at: /mnt/research/ShadeLab/WorkingSpace/Bowsher
+
+#######################################################################################################
+
+
+#MOVE RAW DATA TO SHADE-LAB SPACE FOR RAW SEQUENCES
+mv 20180525_16S-V4_PE250/ /mnt/research/ShadeLab/Sequence/raw_sequence/Bowsher/
+
+
+
+#GUNZIP ALL RAW DATA FILES
+cd /mnt/research/ShadeLab/Sequence/raw_sequence/Bowsher/20180525_16S-V4_PE250
+gunzip *.gz
+
+
+
+#RENAME FILES AND MOVE THEM INTO NEW DIRECTORY IN WORKINGSPACE.
+	#Renaming: this is important because, for example, there are samples named "C5_DNA..." and "C5_RNA...".
+	#This will not work in later steps, because '-fastq_mergepairs' will abbreviate both samples as "C5"
+	#Moving to new folder: this is important because we're renaming (i.e. manipulating) the raw data, so we want any alterations in a separate space.
+
+cp A1_DNA_Exp_S31_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A1DNA_Exp_S31_L001_R1_001.fastq
+cp A1_DNA_Exp_S31_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A1DNA_Exp_S31_L001_R2_001.fastq
+cp A1_RNA_Exp_S26_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A1RNA_Exp_S26_L001_R1_001.fastq
+cp A1_RNA_Exp_S26_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A1RNA_Exp_S26_L001_R2_001.fastq
+cp A2_DNA_Exp_S42_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A2DNA_Exp_S42_L001_R1_001.fastq
+cp A2_DNA_Exp_S42_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A2DNA_Exp_S42_L001_R2_001.fastq
+cp A2_RNA_Exp_S37_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A2RNA_Exp_S37_L001_R1_001.fastq
+cp A2_RNA_Exp_S37_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A2RNA_Exp_S37_L001_R2_001.fastq
+cp A3_DNA_Exp_S53_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A3DNA_Exp_S53_L001_R1_001.fastq
+cp A3_DNA_Exp_S53_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A3DNA_Exp_S53_L001_R2_001.fastq
+cp A3_RNA_Exp_S48_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A3RNA_Exp_S48_L001_R1_001.fastq
+cp A3_RNA_Exp_S48_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A3RNA_Exp_S48_L001_R2_001.fastq
+cp A4_DNA_Exp_S64_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A4DNA_Exp_S64_L001_R1_001.fastq
+cp A4_DNA_Exp_S64_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A4DNA_Exp_S64_L001_R2_001.fastq
+cp A4_RNA_Exp_S59_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A4RNA_Exp_S59_L001_R1_001.fastq
+cp A4_RNA_Exp_S59_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A4RNA_Exp_S59_L001_R2_001.fastq
+cp A5_DNA_Exp_S75_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A5DNA_Exp_S75_L001_R1_001.fastq
+cp A5_DNA_Exp_S75_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A5DNA_Exp_S75_L001_R2_001.fastq
+cp A5_RNA_Exp_S70_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A5RNA_Exp_S70_L001_R1_001.fastq
+cp A5_RNA_Exp_S70_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/A5RNA_Exp_S70_L001_R2_001.fastq
+cp C1_DNA_Exp_S6_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C1DNA_Exp_S6_L001_R1_001.fastq
+cp C1_DNA_Exp_S6_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C1DNA_Exp_S6_L001_R2_001.fastq
+cp C1_RNA_Exp_S1_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C1RNA_Exp_S1_L001_R1_001.fastq
+cp C1_RNA_Exp_S1_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C1RNA_Exp_S1_L001_R2_001.fastq
+cp C2_DNA_Exp_S18_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C2DNA_Exp_S18_L001_R1_001.fastq
+cp C2_DNA_Exp_S18_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C2DNA_Exp_S18_L001_R2_001.fastq
+cp C2_RNA_Exp_S13_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C2RNA_Exp_S13_L001_R1_001.fastq
+cp C2_RNA_Exp_S13_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C2RNA_Exp_S13_L001_R2_001.fastq
+cp C3_DNA_Exp_S30_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C3DNA_Exp_S30_L001_R1_001.fastq
+cp C3_DNA_Exp_S30_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C3DNA_Exp_S30_L001_R2_001.fastq
+cp C3_RNA_Exp_S25_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C3RNA_Exp_S25_L001_R1_001.fastq
+cp C3_RNA_Exp_S25_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C3RNA_Exp_S25_L001_R2_001.fastq
+cp C4_DNA_Exp_S41_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C4DNA_Exp_S41_L001_R1_001.fastq
+cp C4_DNA_Exp_S41_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C4DNA_Exp_S41_L001_R2_001.fastq
+cp C4_RNA_Exp_S36_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C4RNA_Exp_S36_L001_R1_001.fastq
+cp C4_RNA_Exp_S36_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C4RNA_Exp_S36_L001_R2_001.fastq
+cp C5_DNA_Exp_S52_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C5DNA_Exp_S52_L001_R1_001.fastq
+cp C5_DNA_Exp_S52_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C5DNA_Exp_S52_L001_R2_001.fastq
+cp C5_RNA_Exp_S47_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C5RNA_Exp_S47_L001_R1_001.fastq
+cp C5_RNA_Exp_S47_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/C5RNA_Exp_S47_L001_R2_001.fastq
+cp I1_DNA_Exp_S63_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I1DNA_Exp_S63_L001_R1_001.fastq
+cp I1_DNA_Exp_S63_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I1DNA_Exp_S63_L001_R2_001.fastq
+cp I1_RNA_Exp_S58_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I1RNA_Exp_S58_L001_R1_001.fastq
+cp I1_RNA_Exp_S58_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I1RNA_Exp_S58_L001_R2_001.fastq
+cp I2_DNA_Exp_S74_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I2DNA_Exp_S74_L001_R1_001.fastq
+cp I2_DNA_Exp_S74_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I2DNA_Exp_S74_L001_R2_001.fastq
+cp I2_RNA_Exp_S69_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I2RNA_Exp_S69_L001_R1_001.fastq
+cp I2_RNA_Exp_S69_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I2RNA_Exp_S69_L001_R2_001.fastq
+cp I3_DNA_Exp_S85_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I3DNA_Exp_S85_L001_R1_001.fastq
+cp I3_DNA_Exp_S85_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I3DNA_Exp_S85_L001_R2_001.fastq
+cp I3_RNA_Exp_S80_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I3RNA_Exp_S80_L001_R1_001.fastq
+cp I3_RNA_Exp_S80_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I3RNA_Exp_S80_L001_R2_001.fastq
+cp I4_DNA_Exp_S7_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I4DNA_Exp_S7_L001_R1_001.fastq
+cp I4_DNA_Exp_S7_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I4DNA_Exp_S7_L001_R2_001.fastq
+cp I4_RNA_Exp_S2_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I4RNA_Exp_S2_L001_R1_001.fastq
+cp I4_RNA_Exp_S2_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I4RNA_Exp_S2_L001_R2_001.fastq
+cp I5_DNA_Exp_S19_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I5DNA_Exp_S19_L001_R1_001.fastq
+cp I5_DNA_Exp_S19_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I5DNA_Exp_S19_L001_R2_001.fastq
+cp I5_RNA_Exp_S14_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I5RNA_Exp_S14_L001_R1_001.fastq
+cp I5_RNA_Exp_S14_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/I5RNA_Exp_S14_L001_R2_001.fastq
+cp J1_DNA_Exp_S86_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J1DNA_Exp_S86_L001_R1_001.fastq
+cp J1_DNA_Exp_S86_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J1DNA_Exp_S86_L001_R2_001.fastq
+cp J1_RNA_Exp_S81_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J1RNA_Exp_S81_L001_R1_001.fastq
+cp J1_RNA_Exp_S81_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J1RNA_Exp_S81_L001_R2_001.fastq
+cp J2_DNA_Exp_S8_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J2DNA_Exp_S8_L001_R1_001.fastq
+cp J2_DNA_Exp_S8_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J2DNA_Exp_S8_L001_R2_001.fastq
+cp J2_RNA_Exp_S3_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J2RNA_Exp_S3_L001_R1_001.fastq
+cp J2_RNA_Exp_S3_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J2RNA_Exp_S3_L001_R2_001.fastq
+cp J3_DNA_Exp_S20_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J3DNA_Exp_S20_L001_R1_001.fastq
+cp J3_DNA_Exp_S20_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J3DNA_Exp_S20_L001_R2_001.fastq
+cp J3_RNA_Exp_S15_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J3RNA_Exp_S15_L001_R1_001.fastq
+cp J3_RNA_Exp_S15_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J3RNA_Exp_S15_L001_R2_001.fastq
+cp J4_DNA_Exp_S32_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J4DNA_Exp_S32_L001_R1_001.fastq
+cp J4_DNA_Exp_S32_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J4DNA_Exp_S32_L001_R2_001.fastq
+cp J4_RNA_Exp_S27_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J4RNA_Exp_S27_L001_R1_001.fastq
+cp J4_RNA_Exp_S27_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J4RNA_Exp_S27_L001_R2_001.fastq
+cp J5_DNA_Exp_S43_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J5DNA_Exp_S43_L001_R1_001.fastq
+cp J5_DNA_Exp_S43_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J5DNA_Exp_S43_L001_R2_001.fastq
+cp J5_RNA_Exp_S38_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J5RNA_Exp_S38_L001_R1_001.fastq
+cp J5_RNA_Exp_S38_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/J5RNA_Exp_S38_L001_R2_001.fastq
+cp Post1_DNA_Exp_S77_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post1DNA_Exp_S77_L001_R1_001.fastq
+cp Post1_DNA_Exp_S77_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post1DNA_Exp_S77_L001_R2_001.fastq
+cp Post1_RNA_Exp_S72_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post1RNA_Exp_S72_L001_R1_001.fastq
+cp Post1_RNA_Exp_S72_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post1RNA_Exp_S72_L001_R2_001.fastq
+cp Post2_DNA_Exp_S88_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post2DNA_Exp_S88_L001_R1_001.fastq
+cp Post2_DNA_Exp_S88_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post2DNA_Exp_S88_L001_R2_001.fastq
+cp Post2_RNA_Exp_S83_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post2RNA_Exp_S83_L001_R1_001.fastq
+cp Post2_RNA_Exp_S83_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post2RNA_Exp_S83_L001_R2_001.fastq
+cp Post3_DNA_Exp_S10_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post3DNA_Exp_S10_L001_R1_001.fastq
+cp Post3_DNA_Exp_S10_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post3DNA_Exp_S10_L001_R2_001.fastq
+cp Post3_RNA_Exp_S5_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post3RNA_Exp_S5_L001_R1_001.fastq
+cp Post3_RNA_Exp_S5_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post3RNA_Exp_S5_L001_R2_001.fastq
+cp Post4_DNA_Exp_S22_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post4DNA_Exp_S22_L001_R1_001.fastq
+cp Post4_DNA_Exp_S22_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post4DNA_Exp_S22_L001_R2_001.fastq
+cp Post4_RNA_Exp_S17_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post4RNA_Exp_S17_L001_R1_001.fastq
+cp Post4_RNA_Exp_S17_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post4RNA_Exp_S17_L001_R2_001.fastq
+cp Post5_DNA_Exp_S34_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post5DNA_Exp_S34_L001_R1_001.fastq
+cp Post5_DNA_Exp_S34_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post5DNA_Exp_S34_L001_R2_001.fastq
+cp Post5_RNA_Exp_S29_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post5RNA_Exp_S29_L001_R1_001.fastq
+cp Post5_RNA_Exp_S29_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Post5RNA_Exp_S29_L001_R2_001.fastq
+cp Pre1_DNA_Exp_S21_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre1DNA_Exp_S21_L001_R1_001.fastq
+cp Pre1_DNA_Exp_S21_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre1DNA_Exp_S21_L001_R2_001.fastq
+cp Pre1_RNA_Exp_S16_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre1RNA_Exp_S16_L001_R1_001.fastq
+cp Pre1_RNA_Exp_S16_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre1RNA_Exp_S16_L001_R2_001.fastq
+cp Pre2_DNA_Exp_S33_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre2DNA_Exp_S33_L001_R1_001.fastq
+cp Pre2_DNA_Exp_S33_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre2DNA_Exp_S33_L001_R2_001.fastq
+cp Pre2_RNA_Exp_S28_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre2RNA_Exp_S28_L001_R1_001.fastq
+cp Pre2_RNA_Exp_S28_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre2RNA_Exp_S28_L001_R2_001.fastq
+cp Pre3_DNA_Exp_S44_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre3DNA_Exp_S44_L001_R1_001.fastq
+cp Pre3_DNA_Exp_S44_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre3DNA_Exp_S44_L001_R2_001.fastq
+cp Pre3_RNA_Exp_S39_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre3RNA_Exp_S39_L001_R1_001.fastq
+cp Pre3_RNA_Exp_S39_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre3RNA_Exp_S39_L001_R2_001.fastq
+cp Pre4_DNA_Exp_S55_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre4DNA_Exp_S55_L001_R1_001.fastq
+cp Pre4_DNA_Exp_S55_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre4DNA_Exp_S55_L001_R2_001.fastq
+cp Pre4_RNA_Exp_S50_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre4RNA_Exp_S50_L001_R1_001.fastq
+cp Pre4_RNA_Exp_S50_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre4RNA_Exp_S50_L001_R2_001.fastq
+cp Pre5_DNA_Exp_S66_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre5DNA_Exp_S66_L001_R1_001.fastq
+cp Pre5_DNA_Exp_S66_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre5DNA_Exp_S66_L001_R2_001.fastq
+cp Pre5_RNA_Exp_S61_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre5RNA_Exp_S61_L001_R1_001.fastq
+cp Pre5_RNA_Exp_S61_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Pre5RNA_Exp_S61_L001_R2_001.fastq
+cp S1_DNA_Exp_S54_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S1DNA_Exp_S54_L001_R1_001.fastq
+cp S1_DNA_Exp_S54_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S1DNA_Exp_S54_L001_R2_001.fastq
+cp S1_RNA_Exp_S49_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S1RNA_Exp_S49_L001_R1_001.fastq
+cp S1_RNA_Exp_S49_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S1RNA_Exp_S49_L001_R2_001.fastq
+cp S2_DNA_Exp_S65_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S2DNA_Exp_S65_L001_R1_001.fastq
+cp S2_DNA_Exp_S65_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S2DNA_Exp_S65_L001_R2_001.fastq
+cp S2_RNA_Exp_S60_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S2RNA_Exp_S60_L001_R1_001.fastq
+cp S2_RNA_Exp_S60_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S2RNA_Exp_S60_L001_R2_001.fastq
+cp S3_DNA_Exp_S76_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S3DNA_Exp_S76_L001_R1_001.fastq
+cp S3_DNA_Exp_S76_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S3DNA_Exp_S76_L001_R2_001.fastq
+cp S3_RNA_Exp_S71_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S3RNA_Exp_S71_L001_R1_001.fastq
+cp S3_RNA_Exp_S71_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S3RNA_Exp_S71_L001_R2_001.fastq
+cp S4_DNA_Exp_S87_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S4DNA_Exp_S87_L001_R1_001.fastq
+cp S4_DNA_Exp_S87_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S4DNA_Exp_S87_L001_R2_001.fastq
+cp S4_RNA_Exp_S82_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S4RNA_Exp_S82_L001_R1_001.fastq
+cp S4_RNA_Exp_S82_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S4RNA_Exp_S82_L001_R2_001.fastq
+cp S5_DNA_Exp_S9_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S5DNA_Exp_S9_L001_R1_001.fastq
+cp S5_DNA_Exp_S9_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S5DNA_Exp_S9_L001_R2_001.fastq
+cp S5_RNA_Exp_S4_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S5RNA_Exp_S4_L001_R1_001.fastq
+cp S5_RNA_Exp_S4_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/S5RNA_Exp_S4_L001_R2_001.fastq
+cp Wat1_DNA_Exp_S45_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat1DNA_Exp_S45_L001_R1_001.fastq
+cp Wat1_DNA_Exp_S45_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat1DNA_Exp_S45_L001_R2_001.fastq
+cp Wat1_RNA_Exp_S40_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat1RNA_Exp_S40_L001_R1_001.fastq
+cp Wat1_RNA_Exp_S40_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat1RNA_Exp_S40_L001_R2_001.fastq
+cp Wat2_DNA_Exp_S56_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat2DNA_Exp_S56_L001_R1_001.fastq
+cp Wat2_DNA_Exp_S56_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat2DNA_Exp_S56_L001_R2_001.fastq
+cp Wat2_RNA_Exp_S51_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat2RNA_Exp_S51_L001_R1_001.fastq
+cp Wat2_RNA_Exp_S51_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat2RNA_Exp_S51_L001_R2_001.fastq
+cp Wat3_DNA_Exp_S67_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat3DNA_Exp_S67_L001_R1_001.fastq
+cp Wat3_DNA_Exp_S67_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat3DNA_Exp_S67_L001_R2_001.fastq
+cp Wat3_RNA_Exp_S62_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat3RNA_Exp_S62_L001_R1_001.fastq
+cp Wat3_RNA_Exp_S62_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat3RNA_Exp_S62_L001_R2_001.fastq
+cp Wat4_DNA_Exp_S78_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat4DNA_Exp_S78_L001_R1_001.fastq
+cp Wat4_DNA_Exp_S78_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat4DNA_Exp_S78_L001_R2_001.fastq
+cp Wat4_RNA_Exp_S73_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat4RNA_Exp_S73_L001_R1_001.fastq
+cp Wat4_RNA_Exp_S73_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat4RNA_Exp_S73_L001_R2_001.fastq
+cp Wat5_DNA_Exp_S89_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat5DNA_Exp_S89_L001_R1_001.fastq
+cp Wat5_DNA_Exp_S89_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat5DNA_Exp_S89_L001_R2_001.fastq
+cp Wat5_RNA_Exp_S84_L001_R1_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat5RNA_Exp_S84_L001_R1_001.fastq
+cp Wat5_RNA_Exp_S84_L001_R2_001.fastq /mnt/research/ShadeLab/WorkingSpace/Bowsher/Wat5RNA_Exp_S84_L001_R2_001.fastq
+
+
+#MOVE TO WORKINGSPACE, AND VERIFY THE FILES HAVE BEEN RENAMED CORRECTLY.
+cd /mnt/research/ShadeLab/WorkingSpace/Bowsher
+
+
+
+
+#CHECK THAT THE CORRECT NUMBER OF FILES HAVE BEEN MOVED (SHOULD BE 160)
+ls -1 | wc -l
+
+
+
+#MOVE THE DATA TO NEW DIRECTORY
+mkdir InputData
+mv *.fastq InputData/
+
+
+
+
+#MERGE PAIRS
+mkdir mergedfastq
+/mnt/research/rdp/public/thirdParty/usearch10.0.240_i86linux64 -fastq_mergepairs InputData/*R1*.fastq -fastq_maxdiffs 10 -relabel @ -fastqout mergedfastq/merged.fastq -tabbedout mergedfastq/merged.report.txt -alnout mergedfastq/merged_aln.txt
+
+
+
+#CHECK SEQUENCE QUALITY OF MERGED SEQS
+mkdir fastq_info
+/mnt/research/rdp/public/thirdParty/usearch10.0.240_i86linux64 -fastq_eestats2 mergedfastq/merged.fastq -output fastq_info/eestats.txt
+
+
+
+#REMOVE ADAPTER SEQS (cut the reverse complement of primer2, and the actual sequence of Primer1).
+module load cutadapt/1.8.1
+cutadapt -a ATTAGAWACCCBDGTAGTCC -a GTGCCAGCMGCCGCGGTAA -o cut_merged.fastq mergedfastq/merged.fastq > cut_adpt_results.txt
+
+
+
+
+#FILTER THE MERGED SEQS
+/mnt/research/rdp/public/thirdParty/usearch10.0.240_i86linux64 -fastq_filter cut_merged.fastq -fastq_maxee 1 -fastaout filtered_merged.fa
+
+
+
+#DEREPLICATE (COMBINE IDENTICAL READS INTO UNIQUE SEQUENCES TO REDUCE FUTURE COMPUTATIONAL TIME BY ELIMINATING REDUNDANT COMPARISONS).
+/mnt/research/rdp/public/thirdParty/usearch10.0.240_i86linux64 -fastx_uniques filtered_merged.fa -fastaout uniques_filtered_merged.fa -sizeout
+
+
+
+#CLUSTER INTO 0.97 OTUS
+#make a new script 
+vim ClusterOTUs.sh
+#enter the following script:
+
+#!/bin/bash -login
+#PBS -l walltime=04:00:00,nodes=1:ppn=1,mem=12gb
+#PBS -j oe
+#PBS -N ClusterOTUs
+cd /mnt/research/ShadeLab/WorkingSpace/Bowsher/
+/mnt/research/rdp/public/thirdParty/usearch10.0.240_i86linux64 -cluster_otus uniques_filtered_merged.fa -otus otus.fasta -uparseout otus_uparse.txt -relabel OTU
+
+#SUBMIT THE ABOVE SCRIPT
+qsub ClusterOTUs.sh
+
+
+
+
+
+#MAP READS BACK TO THE OTUS AT 97% IDENTITY
+#make a new script
+vim MapToOTUs.sh
+#enter the following script:
+
+#!/bin/bash -login
+#PBS -l walltime=04:00:00,nodes=1:ppn=1,mem=12gb
+#PBS -j oe
+#PBS -N MapToOTUs
+cd /mnt/research/ShadeLab/WorkingSpace/Bowsher/
+/mnt/research/rdp/public/thirdParty/usearch10.0.240_i86linux64 -otutab cut_merged.fastq -otus otus.fasta -uc OTU_map.uc -otutabout OTU_table.txt -biomout OTU_jsn.biom -notmatchedfq otu_unmapped.fq
+
+#Submit the above script
+qsub MapToOTUs.sh
+
+
+
+
+
+
+
+
+
+#CLASSIFYING THE OTUS
+#First, download the latest Silva taxonomy annotations and alignment file from the following link:
+#https://www.mothur.org/wiki/Silva_reference_files
+#Move the Silva reference files to the WorkingSpace
+mv Silva.nr_v132.tgz /mnt/research/ShadeLab/WorkingSpace/Bowsher/
+#Now decompress and extract the files:
+tar -xvzf Silva.nr_v132.tgz
+
+#make a new script:
+vim MothurCommands.sh
+#enter the following script:
+classify.seqs(fasta=otus.fasta, template=silva.nr_v132.align, taxonomy=silva.nr_v132.tax, method=wang, probs=F)
+
+#make a new script:
+vim ClassifyOTUs.sh
+#enter the following script:
+
+#!/bin/bash -login
+#PBS -l walltime=04:00:00,nodes=1:ppn=1,mem=12gb
+#PBS -j oe
+#PBS -N ClassifyOTUs
+
+cd /mnt/research/ShadeLab/WorkingSpace/Bowsher/  
+module load mothur/1.36.1
+mothur MothurCommands.sh
+
+#Submit the above script
+qsub ClassifyOTUs.sh
+
+
+
+
+
+
+#FINDING MITOCHONDRIAL AND PLANT-DERIVED CONTAMINANTS and UNASSIGNED OTUs
+grep "hloroplast" otus.nr_v132.wang.taxonomy > chloro.txt
+grep "itochondria" otus.nr_v132.wang.taxonomy > mito.txt
+grep "unknown_unclassified" otus.nr_v132.wang.taxonomy > unknown.txt
+cut -f1 chloro.txt mito.txt unknown.txt > Contaminant_OTUs.txt
+
+#REMOVE CONTAMINANT OTUS FROM THE TAX ASSIGMENTS TABLE
+grep -v -Fwf Contaminant_OTUs.txt otus.nr_v132.wang.taxonomy > Clean_otus_tax_assignments.txt
+
+#REMOVE CONTAMINANT OTUS FROM THE OTU TABLE
+grep -v -Fwf Contaminant_OTUs.txt OTU_table.txt > Clean_OTU_table.txt    
+   
+
+
+#MOVE RELEVANT FILES TO R FOR ECOLOGICAL ANALYSIS:
+	#Clean_OTU_table.txt
+	#Clean_otus_tax_assignments.txt
+
+
